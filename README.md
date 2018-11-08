@@ -22,6 +22,6 @@
 
 ## 最终效果
 
-![截图1]](./md/pic1.png)
-![截图2]](./md/pic2.png)
-![截图3]](./md/pic3.png)
+![截图1](./md/pic1.png)
+![截图2](./md/pic2.png)
+![截图3](./md/pic3.png)
