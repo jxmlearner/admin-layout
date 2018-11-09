@@ -1,35 +1,71 @@
 //Vue实例
-var app=new Vue({
-	el:'#app',
-	data:{
+var app = new Vue({
+	el: '#app',
+	data: {
 		isCollapse: false,
-		dialogs:[
-			{header:'images/b_header.jpg',content:'我有一个Style样式需要您帮忙处理以下。',time:'3'},
-			{header:'images/b_header1.jpg',content:'中午一起吃个饭吧，我请客。',time:'15'},
-			{header:'images/b_header.jpg',content:'需要处理一下POP展示的白边样式。',time:'18'},
-			{header:'images/b_header.jpg',content:'下午3点开需求会议，准时参加。',time:'24'},
-			{header:'images/b_header.jpg',content:'晚上我开车送你回家，你请我吃晚饭。',time:'45'},
+		dialogs: [
+			{ header: 'images/b_header.jpg', content: '我有一个Style样式需要您帮忙处理以下。', time: '3' },
+			{ header: 'images/b_header1.jpg', content: '中午一起吃个饭吧，我请客。', time: '15' },
+			{ header: 'images/b_header.jpg', content: '需要处理一下POP展示的白边样式。', time: '18' },
+			{ header: 'images/b_header.jpg', content: '下午3点开需求会议，准时参加。', time: '24' },
+			{ header: 'images/b_header.jpg', content: '晚上我开车送你回家，你请我吃晚饭。', time: '45' },
 		],
-		//defaultTab:'product-cate'   //默认tab(测试)
+		currentTab: '首页',
+		mainTabs: [
+			{ id:'tabmain', name: '首页', url:'home.html' },
+			//{ id:'tabuser', name: '用户管理', url:'admin/user' },
+			//{ id:'tabrole', name: '角色管理', url:'admin/role' },
+		]
 	},
-	mounted () {
+	mounted() {
 
-    },
-	methods:{
+	},
+	methods: {
 		handleOpen(key, keyPath) {
 			console.log(key, keyPath);
 		},
 		handleClose(key, keyPath) {
 			console.log(key, keyPath);
 		},
-		toggleCallapse(){  //左侧菜单的展开和折叠
-			this.isCollapse=!this.isCollapse;
+		toggleCallapse() {  //左侧菜单的展开和折叠
+			this.isCollapse = !this.isCollapse;
 		},
+		addTab(id,tabname,url) {
+			let newtab=this.mainTabs.find(t=>t.id==id)
+			if(newtab){  //如果存在
+				this.currentTab=newtab.name
+				return
+			}
+			newtab={id,name:tabname,url}
+			this.mainTabs.push(newtab);
+			//TODO: 去异步加载html渲染,   --没想出来怎么实现,只好用iframe实现加载
+			this.currentTab=tabname
+		  },
+		  removeTab(targetName) {
+			if(targetName=='首页'){   //首页不可关闭
+				return;
+			}
+			let tabs = this.mainTabs;
+			let activeName = this.currentTab;
+			if (activeName === targetName) {
+			  tabs.forEach((tab, index) => {
+				if (tab.name === targetName) {
+				  let nextTab = tabs[index + 1] || tabs[index - 1];
+				  if (nextTab) {
+					activeName = nextTab.name;
+				  }
+				}
+			  });
+			}
+			
+			this.currentTab = activeName;
+			this.mainTabs = tabs.filter(tab => tab.name !== targetName);
+		}
 	},
 	computed: {
-		
+
 	},
 	watch: {
-		
-    }
+
+	}
 });
