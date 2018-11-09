@@ -67,6 +67,19 @@ var app = new Vue({
 		},
 		clickTab(tab){
 			this.currentMenu=this.mainTabs[tab.index*1].id
+		},
+		//退出登录
+		logout: function () {
+			var _this = this;
+			console.log('退出登录事件')
+			this.$confirm('确认退出吗?', '提示', {
+				//type: 'warning'
+			}).then(() => {
+				axios.get('/mall/Home/LogOut?temp=' + (+new Date)).then(function (data) {
+					window.top.location.replace("login.html"); //避免点击浏览器的后退按钮时重新进入系统的问题，原理：用新页面的URL替换当前的历史纪录，这样浏览历史记录中就只有一个页面
+				});
+			}).catch(() => {
+			});
 		}
 	},
 	computed: {
