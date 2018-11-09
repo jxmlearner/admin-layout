@@ -11,6 +11,7 @@ var app = new Vue({
 			{ header: 'images/b_header.jpg', content: '晚上我开车送你回家，你请我吃晚饭。', time: '45' },
 		],
 		currentTab: '首页',
+		currentMenu:'tabmain',
 		mainTabs: [
 			{ id:'tabmain', name: '首页', url:'home.html' },
 			//{ id:'tabuser', name: '用户管理', url:'admin/user' },
@@ -22,10 +23,10 @@ var app = new Vue({
 	},
 	methods: {
 		handleOpen(key, keyPath) {
-			console.log(key, keyPath);
+			//console.log(key, keyPath);
 		},
 		handleClose(key, keyPath) {
-			console.log(key, keyPath);
+			//console.log(key, keyPath);
 		},
 		toggleCallapse() {  //左侧菜单的展开和折叠
 			this.isCollapse = !this.isCollapse;
@@ -37,29 +38,35 @@ var app = new Vue({
 				return
 			}
 			newtab={id,name:tabname,url}
-			this.mainTabs.push(newtab);
+			this.mainTabs.push(newtab)
 			//TODO: 去异步加载html渲染,   --没想出来怎么实现,只好用iframe实现加载
 			this.currentTab=tabname
-		  },
-		  removeTab(targetName) {
+		},
+		removeTab(targetName) {
 			if(targetName=='首页'){   //首页不可关闭
 				return;
 			}
-			let tabs = this.mainTabs;
-			let activeName = this.currentTab;
+			let tabs = this.mainTabs
+			let activeName = this.currentTab
+			let activeMenu=this.currentMenu
 			if (activeName === targetName) {
 			  tabs.forEach((tab, index) => {
 				if (tab.name === targetName) {
 				  let nextTab = tabs[index + 1] || tabs[index - 1];
 				  if (nextTab) {
-					activeName = nextTab.name;
+					activeName = nextTab.name
+					activeMenu=nextTab.id
 				  }
 				}
 			  });
 			}
 			
-			this.currentTab = activeName;
-			this.mainTabs = tabs.filter(tab => tab.name !== targetName);
+			this.currentTab = activeName
+			this.currentMenu=activeMenu
+			this.mainTabs = tabs.filter(tab => tab.name !== targetName)
+		},
+		clickTab(tab){
+			this.currentMenu=this.mainTabs[tab.index*1].id
 		}
 	},
 	computed: {

@@ -3,7 +3,7 @@ html,body{height:100%; width:100%;}
 
 #app{height:100%; display:flex;}
 [v-cloak] {
-    display: none;
+    display: none !important;
 }
 .lay-header{
     background-color: #1890ff;
